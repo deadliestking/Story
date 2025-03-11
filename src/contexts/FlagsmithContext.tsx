@@ -153,6 +153,12 @@ const FlagsmithProvider = ({ children }: { children: React.ReactNode }) => {
       console.log(`Toggled flag ${flagName} to ${newFlags[flagName]}`);
       return newFlags;
     });
+
+    // Force a re-render of components using the flags
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 50);
   };
 
   // Create the context value

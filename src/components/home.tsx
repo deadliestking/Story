@@ -79,6 +79,7 @@ const Home = ({
   };
 
   // Check if the continue reading section should be shown based on feature flag
+  // Force re-evaluation on each render
   const showContinueReading = hasFeature("show_continue_reading");
 
   return (

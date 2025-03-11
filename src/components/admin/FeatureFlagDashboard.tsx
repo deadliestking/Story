@@ -66,22 +66,20 @@ const FeatureFlagDashboard = () => {
 
   // This is a mock function - in a real app, this would update the flag in Flagsmith
   const toggleFlag = (flagId: string) => {
-    setFlags(
-      flags.map((flag) =>
-        flag.id === flagId ? { ...flag, enabled: !flag.enabled } : flag,
-      ),
-    );
-
-    // In a real implementation, this would call the Flagsmith API to update the flag
-    console.log(`Toggled flag ${flagId}`);
-
     // Access the toggleFlag function from context if available
-    if ((useFlagsmith() as any).toggleFlag) {
-      (useFlagsmith() as any).toggleFlag(flagId);
-    }
+    const flagsmithContext = useFlagsmith();
+    if (flagsmithContext && "toggleFlag" in flagsmithContext) {
+      flagsmithContext.toggleFlag(flagId);
 
-    // Refresh flags to simulate the change
-    setTimeout(() => refreshFlags(), 500);
+      // Update local state to match
+      setFlags(
+        flags.map((flag) =>
+          flag.id === flagId ? { ...flag, enabled: !flag.enabled } : flag,
+        ),
+      );
+
+      console.log(`Toggled flag ${flagId}`);
+    }
   };
 
   return (
